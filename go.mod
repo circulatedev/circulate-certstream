@@ -7,8 +7,11 @@ require (
 	github.com/tidwall/gjson v1.14.4
 )
 
+require github.com/arangodb/go-velocypack v0.0.0-20200318135517-5af53c29c67e // indirect
+
 require (
 	github.com/CaliDog/certstream-go v0.0.0-20200713031452-eca7997412f1 // indirect
+	github.com/arangodb/go-driver v1.5.2
 	github.com/gorilla/websocket v1.5.0 // indirect
 	github.com/jmoiron/jsonq v0.0.0-20150511023944-e874b168d07e // indirect
 	github.com/pkg/errors v0.9.1 // indirect
