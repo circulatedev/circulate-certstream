@@ -20,7 +20,7 @@ func compareStrings(domain string, cert *CertStreamMessage, keywords []StringCom
 	}
 }
 
-func processStream() {
+func processStream(targets *Targets) {
 	keywordsEnv := os.Getenv("KEYWORDS")
 	if keywordsEnv == "" {
 		fmt.Println("Error: KEYWORDS environment variable is not set")
@@ -34,15 +34,10 @@ func processStream() {
 		return
 	}
 
-	matches := 0
-
 	arbitraryStringCompares := make([]StringCompare, len(keywordStringsList))
 	for i, s := range keywordStringsList {
 		arbitraryStringCompares[i] = StringCompare{s, func(cert *CertStreamMessage) {
-			// certBytes, _ := json.MarshalIndent(cert, "", "  ")
-			// fmt.Printf("Match found:\n%s\n", string(certBytes))
-			fmt.Printf("Match found:\n%v\n", matches)
-			matches++
+			targets.push(cert)
 		}}
 	}
 
@@ -107,7 +102,8 @@ func healthCheckHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-	go processStream()
+	targets := initTargets()
+	go processStream(targets)
 
 	http.HandleFunc("/health", healthCheckHandler)
 
